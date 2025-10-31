@@ -36,10 +36,10 @@ pnpm lint
 ### Shadcn UI 组件管理
 ```bash
 # 添加新组件（pnpm 官方推荐方式）
-pnpm dlx shadcn-ui@latest add [component-name]
+pnpm dlx shadcn@latest add [component-name]
 
 # 查看可用组件
-pnpm dlx shadcn-ui@latest add
+pnpm dlx shadcn@latest add
 ```
 
 ---
@@ -77,7 +77,7 @@ my-app/
 - 严格的依赖隔离（避免幽灵依赖问题）
 - Lock 文件：`pnpm-lock.yaml`
 - 安装命令：`pnpm install`
-- 添加 Shadcn 组件：`pnpm dlx shadcn-ui@latest add [component]`
+- 添加 Shadcn 组件：`pnpm dlx shadcn@latest add [component]`
 
 **3. Shadcn UI 配置（components.json）**
 - 风格：New York
