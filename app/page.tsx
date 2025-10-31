@@ -62,7 +62,7 @@ export default function HomePage() {
             className="relative rounded-2xl overflow-hidden min-h-[218px] flex flex-col justify-end shadow-md"
             style={{
               backgroundImage:
-                'linear-gradient(0deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 40%), url("/abstract-gradient-shapes-modern-design.jpg")',
+                'linear-gradient(0deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 40%), url("https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?w=800&h=500&fit=crop")',
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
@@ -87,17 +87,17 @@ export default function HomePage() {
             {
               title: "GPT-4o vs Claude 3 Opus",
               subtitle: "深度对比分析",
-              image: "/ai-models-comparison-abstract.jpg",
+              image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop",
             },
             {
               title: "AI视频生成竞赛",
               subtitle: "最新技术进展",
-              image: "/video-generation-ai-technology.jpg",
+              image: "https://images.unsplash.com/photo-1626785774625-ddcddc3445e9?w=600&h=400&fit=crop",
             },
             {
               title: "如何为你的AI服务定价",
               subtitle: "实用指南与策略",
-              image: "/pricing-strategy-charts-graphs.jpg",
+              image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop",
             },
           ].map((item, index) => (
             <Link
@@ -127,7 +127,7 @@ export default function HomePage() {
             className="flex items-center gap-4 bg-white p-3 rounded-xl shadow-sm hover:shadow-md transition-shadow"
           >
             <img
-              src="/person-typing-futuristic-keyboard.jpg"
+              src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=200&h=200&fit=crop"
               alt="Article thumbnail"
               className="w-20 h-20 rounded-lg object-cover flex-shrink-0"
             />
@@ -151,7 +151,7 @@ export default function HomePage() {
             className="flex items-center gap-4 bg-white p-3 rounded-xl shadow-sm hover:shadow-md transition-shadow"
           >
             <img
-              src="/person-working-laptop-side-hustle.jpg"
+              src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=200&h=200&fit=crop"
               alt="Article thumbnail"
               className="w-20 h-20 rounded-lg object-cover flex-shrink-0"
             />
@@ -179,7 +179,7 @@ export default function HomePage() {
               <h3 className="font-bold text-lg text-[#1A1A1A]">本周AI趋势思维导图</h3>
               <p className="text-sm text-[#7A7A7A] mt-1">一图总结本周热点</p>
             </div>
-            <img src="/colorful-mind-map-icon.jpg" alt="Mind map icon" className="w-16 h-16 object-contain" />
+            <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=200&h=200&fit=crop" alt="Mind map icon" className="w-16 h-16 object-contain" />
           </div>
           <div className="flex items-center gap-3">
             <Button className="flex-1 h-10 rounded-lg bg-[#FF6B35]/10 hover:bg-[#FF6B35]/20 text-[#FF6B35] font-semibold shadow-none">

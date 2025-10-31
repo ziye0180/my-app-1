@@ -148,7 +148,9 @@ export default function MemberPage() {
               <div
                 className="w-14 h-14 rounded-lg bg-gradient-to-br from-purple-400 to-blue-500 flex-shrink-0"
                 style={{
-                  backgroundImage: "url(/placeholder.svg?height=56&width=56&query=abstract+gradient+purple+blue)",
+                  backgroundImage: "url(https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=100&h=100&fit=crop)",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
                 }}
               />
               <div className="flex-1 min-w-0">
@@ -165,7 +167,9 @@ export default function MemberPage() {
               <div
                 className="w-14 h-14 rounded-lg bg-gradient-to-br from-pink-400 to-orange-500 flex-shrink-0"
                 style={{
-                  backgroundImage: "url(/placeholder.svg?height=56&width=56&query=abstract+gradient+pink+orange)",
+                  backgroundImage: "url(https://images.unsplash.com/photo-1696258686454-485e3e5a0590?w=100&h=100&fit=crop)",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
                 }}
               />
               <div className="flex-1 min-w-0">
@@ -182,7 +186,9 @@ export default function MemberPage() {
               <div
                 className="w-14 h-14 rounded-lg bg-gradient-to-br from-blue-400 to-green-500 flex-shrink-0"
                 style={{
-                  backgroundImage: "url(/placeholder.svg?height=56&width=56&query=abstract+gradient+blue+green)",
+                  backgroundImage: "url(https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=100&h=100&fit=crop)",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
                 }}
               />
               <div className="flex-1 min-w-0">

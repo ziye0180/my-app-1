@@ -164,7 +164,7 @@ export default function CheckInPage() {
 
         {/* QR Code */}
         <div className="flex flex-col items-center gap-4 bg-white rounded-2xl p-6 shadow-sm border border-[#E8E3D8]">
-          <img src="/qr-code.png" alt="学习社群二维码" className="w-32 h-32 rounded-lg" />
+          <img src="https://images.unsplash.com/photo-1617957716992-1379a4e50a1e?w=300&h=300&fit=crop" alt="学习社群二维码" className="w-32 h-32 rounded-lg" />
           <div className="text-center">
             <p className="font-semibold text-[#2C2C2C] mb-1">加入学习社群</p>
             <p className="text-sm text-[#6B6B6B]">扫描二维码，与同学们共同进步</p>
