@@ -160,14 +160,15 @@ export default function HomePage() {
                 setSelectedIndex(nextIndex)
               }
             }}
-            className="grid grid-cols-7 gap-2"
+            spacing={0}
+            className="grid grid-cols-7"
           >
             {weekDays.map((day) => (
               <ToggleGroupItem
                 key={day.key}
                 value={day.key}
                 className={cn(
-                  "flex aspect-square min-h-[54px] w-full flex-col items-center justify-center rounded-xl border border-[#E8E3D8] bg-white text-[#7A7A7A] transition-all",
+                  "flex aspect-square min-h-[54px] w-full flex-col items-center justify-center border border-[#E8E3D8] bg-white text-[#7A7A7A] transition-all",
                   "gap-[2px] px-0 py-0",
                   "hover:bg-[#FFF8F5] hover:text-[#FF6B35]",
                   "data-[state=on]:border-transparent data-[state=on]:bg-[#FF6B35] data-[state=on]:text-white data-[state=on]:shadow-sm"
