@@ -1,18 +1,135 @@
 "use client"
 
+import { useMemo, useState } from "react"
 import { Bell, Search, Play, Lock, Download, Share2, Home, Award, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
 import Link from "next/link"
 
+type WeeklyHighlight = {
+  title: string
+  description: string
+  image: string
+  ctaLabel: string
+}
+
+type WeekDay = {
+  date: Date
+  key: string
+  dayNumber: number
+  weekdayShort: string
+  weekdayLong: string
+  headerLabel: string
+  label: string
+  isToday: boolean
+}
+
+const highlightTemplates: WeeklyHighlight[] = [
+  {
+    title: "AIGC新品盘点",
+    description: "本周模型更新速递，速览三款值得关注的生成式AI新品。",
+    image: "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?w=800&h=500&fit=crop",
+    ctaLabel: "查看亮点",
+  },
+  {
+    title: "Prompt 临摹室",
+    description: "精选 5 条高转化提问模板，立刻优化你的工作流程。",
+    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=500&fit=crop",
+    ctaLabel: "获取模板",
+  },
+  {
+    title: "副业案例拆解",
+    description: "从 0 到 1 的 AI 服务闭环，拆解本周最火副业打法。",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop",
+    ctaLabel: "学习路径",
+  },
+  {
+    title: "AI 视频实验室",
+    description: "Runway 最新镜头提示词，60 秒内生成电影感短片。",
+    image: "https://images.unsplash.com/photo-1626785774625-ddcddc3445e9?w=800&h=500&fit=crop",
+    ctaLabel: "即刻试试",
+  },
+  {
+    title: "自动化手账",
+    description: "把重复工作交给机器人，Notion + Zapier 一站式流程。",
+    image: "https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?w=800&h=500&fit=crop",
+    ctaLabel: "领取流程",
+  },
+  {
+    title: "高速学习清单",
+    description: "30 分钟精读路线，覆盖 AI 市场、产品与增长。",
+    image: "https://images.unsplash.com/photo-1520155346-36773f043c00?w=800&h=500&fit=crop",
+    ctaLabel: "开启学习",
+  },
+  {
+    title: "创作者工作坊",
+    description: "Midjourney + ElevenLabs 联动，打造个人品牌素材库。",
+    image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=800&h=500&fit=crop",
+    ctaLabel: "进入工作坊",
+  },
+]
+
+const weekdayShortFormatter = new Intl.DateTimeFormat("zh-CN", { weekday: "short" })
+const weekdayLongFormatter = new Intl.DateTimeFormat("zh-CN", { weekday: "long" })
+
+function getWeekDays(referenceDate: Date): WeekDay[] {
+  const current = new Date(referenceDate)
+  const dayOfWeek = current.getDay() // 0 (Sun) - 6 (Sat)
+  const diffToMonday = (dayOfWeek + 6) % 7
+  const monday = new Date(current)
+  monday.setHours(0, 0, 0, 0)
+  monday.setDate(current.getDate() - diffToMonday)
+
+  return Array.from({ length: 7 }).map((_, index) => {
+    const date = new Date(monday)
+    date.setDate(monday.getDate() + index)
+    const isToday = isSameDate(date, referenceDate)
+    const weekdayLong = weekdayLongFormatter.format(date)
+    const weekdayShort = weekdayShortFormatter.format(date)
+
+    return {
+      date,
+      key: date.toISOString().split("T")[0],
+      dayNumber: date.getDate(),
+      weekdayShort,
+      weekdayLong,
+      headerLabel: `${date.getMonth() + 1}月${date.getDate()}日 ${weekdayLong}`,
+      label: isToday ? "今天" : weekdayShort,
+      isToday,
+    }
+  })
+}
+
+function isSameDate(a: Date, b: Date) {
+  return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate()
+}
+
 export default function HomePage() {
+  const [referenceDate] = useState(() => new Date())
+  const weekDays = useMemo(() => getWeekDays(referenceDate), [referenceDate])
+  const defaultSelectedIndex = weekDays.findIndex((day) => day.isToday)
+  const [selectedIndex, setSelectedIndex] = useState(defaultSelectedIndex >= 0 ? defaultSelectedIndex : 0)
+  const selectedDay = weekDays[selectedIndex] ?? weekDays[0]
+
+  const dailyHighlights = useMemo(() => {
+    return Object.fromEntries(
+      weekDays.map((day, index) => [day.key, highlightTemplates[index % highlightTemplates.length]])
+    ) as Record<string, WeeklyHighlight>
+  }, [weekDays])
+
+  const selectedHighlight = dailyHighlights[selectedDay.key] ?? highlightTemplates[0]
+
   return (
     <div className="min-h-screen bg-[#F7F4ED] text-[#2C2C2C]">
       <div className="max-w-lg mx-auto flex flex-col min-h-screen pb-24">
         {/* Header */}
         <div className="sticky top-0 z-10 bg-[#F7F4ED]/95 backdrop-blur-sm pt-4">
           <div className="flex items-center justify-between px-4 pb-3">
-            <h2 className="text-lg font-bold text-[#1A1A1A]">5月20日 星期一</h2>
-            <button className="flex items-center justify-center w-10 h-10 rounded-full bg-black/5 text-[#2C2C2C] hover:bg-black/10 transition-colors">
+            <h2 className="text-lg font-bold text-[#1A1A1A]">{selectedDay.headerLabel}</h2>
+            <button
+              type="button"
+              className="flex items-center justify-center w-10 h-10 rounded-full bg-black/5 text-[#2C2C2C] hover:bg-black/10 transition-colors"
+            >
               <Bell className="w-5 h-5" />
             </button>
           </div>
@@ -32,27 +149,35 @@ export default function HomePage() {
 
         {/* Date Selector */}
         <div className="px-4 py-2">
-          <div className="flex gap-2 overflow-x-auto no-scrollbar">
-            <div className="flex flex-col items-center justify-center min-w-[56px] h-16 rounded-full bg-[#FF6B35] text-white shadow-sm">
-              <span className="text-xs font-medium">今天</span>
-              <span className="text-lg font-bold">20</span>
-            </div>
-            {[
-              { day: "周二", date: "21" },
-              { day: "周三", date: "22" },
-              { day: "周四", date: "23" },
-              { day: "周五", date: "24" },
-              { day: "周六", date: "25" },
-              { day: "周日", date: "26" },
-            ].map((item) => (
-              <div
-                key={item.date}
-                className="flex flex-col items-center justify-center min-w-[56px] h-16 rounded-full bg-white text-[#7A7A7A] hover:bg-[#FFF8F5] hover:text-[#FF6B35] transition-colors cursor-pointer"
-              >
-                <span className="text-xs">{item.day}</span>
-                <span className="text-lg font-bold">{item.date}</span>
-              </div>
-            ))}
+          <div className="grid grid-cols-7 gap-2">
+            {weekDays.map((day, index) => {
+              const isSelected = index === selectedIndex
+              return (
+                <button
+                  key={day.key}
+                  type="button"
+                  onClick={() => setSelectedIndex(index)}
+                  className={cn(
+                    "flex flex-col items-center justify-center h-16 rounded-full transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF6B35]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#F7F4ED]",
+                    isSelected
+                      ? "bg-[#FF6B35] text-white shadow-sm"
+                      : "bg-white text-[#7A7A7A] border border-[#E8E3D8] hover:bg-[#FFF8F5] hover:text-[#FF6B35]"
+                  )}
+                >
+                  <span className="text-xs font-medium">
+                    {day.isToday && !isSelected ? "今天" : day.label}
+                  </span>
+                  <span
+                    className={cn(
+                      "text-base font-semibold",
+                      isSelected ? "text-white" : "text-[#1A1A1A]"
+                    )}
+                  >
+                    {day.dayNumber}
+                  </span>
+                </button>
+              )
+            })}
           </div>
         </div>
 
@@ -61,21 +186,31 @@ export default function HomePage() {
           <div
             className="relative rounded-2xl overflow-hidden min-h-[218px] flex flex-col justify-end shadow-md"
             style={{
-              backgroundImage:
-                'linear-gradient(0deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 40%), url("https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?w=800&h=500&fit=crop")',
+              backgroundImage: `linear-gradient(0deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 40%), url('${selectedHighlight.image}')`,
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
           >
             <div className="p-5 text-white">
-              <h3 className="text-xl font-bold text-balance">解锁AI新技能</h3>
-              <p className="text-sm opacity-90 mt-1 text-pretty">最新课程上线，助你成为AI高手。</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/70">
+                {selectedDay.weekdayLong}
+              </p>
+              <h3 className="mt-2 text-xl font-bold text-balance">{selectedHighlight.title}</h3>
+              <p className="text-sm opacity-90 mt-1.5 text-pretty">{selectedHighlight.description}</p>
+              <Button
+                variant="secondary"
+                className="mt-4 h-10 rounded-full bg-white/20 text-white hover:bg-white/30 border-none shadow-none backdrop-blur-sm"
+              >
+                {selectedHighlight.ctaLabel}
+              </Button>
             </div>
             <div className="flex justify-center gap-2 pb-3">
-              <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
-              <div className="w-1.5 h-1.5 rounded-full bg-white/50"></div>
-              <div className="w-1.5 h-1.5 rounded-full bg-white/50"></div>
-              <div className="w-1.5 h-1.5 rounded-full bg-white/50"></div>
+              {weekDays.map((_, index) => (
+                <div
+                  key={index}
+                  className={`w-1.5 h-1.5 rounded-full ${index === selectedIndex ? "bg-white" : "bg-white/50"}`}
+                ></div>
+              ))}
             </div>
           </div>
         </div>
