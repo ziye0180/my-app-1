@@ -9,7 +9,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 **AI觉醒派** - 移动端AI信息阅读平台，基于 Next.js 16 + React 19 + Shadcn UI + TypeScript 构建。
 
 **核心特点**：
-
 - 移动优先设计（max-width: lg）
 - 暖色调配色系统（主色: #FF6B35，背景: #F7F4ED）
 - 使用 Shadcn UI (New York 风格) + Lucide Icons
@@ -20,7 +19,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## 常用命令
 
 ### 开发与构建
-
 ```bash
 # 开发服务器（已运行，禁止重复启动）
 pnpm dev
@@ -36,13 +34,12 @@ pnpm lint
 ```
 
 ### Shadcn UI 组件管理
-
 ```bash
-# 添加新组件
-pnpx shadcn@latest add [component-name]
+# 添加新组件（pnpm 官方推荐方式）
+pnpm dlx shadcn-ui@latest add [component-name]
 
 # 查看可用组件
-pnpx shadcn@latest add
+pnpm dlx shadcn-ui@latest add
 ```
 
 ---
@@ -50,7 +47,6 @@ pnpx shadcn@latest add
 ## 项目架构
 
 ### 目录结构
-
 ```
 my-app/
 ├── app/                    # Next.js App Router
@@ -72,13 +68,18 @@ my-app/
 ### 技术栈关键点
 
 **1. 路径别名（tsconfig.json）**
-
 ```typescript
 "@/*": ["./*"]  // 所有文件从根目录引用
 ```
 
-**2. Shadcn UI 配置（components.json）**
+**2. 包管理器（pnpm）**
+- 使用 pnpm 管理依赖（全局存储，节省磁盘空间）
+- 严格的依赖隔离（避免幽灵依赖问题）
+- Lock 文件：`pnpm-lock.yaml`
+- 安装命令：`pnpm install`
+- 添加 Shadcn 组件：`pnpm dlx shadcn-ui@latest add [component]`
 
+**3. Shadcn UI 配置（components.json）**
 - 风格：New York
 - 颜色：Slate
 - 图标库：lucide-react
@@ -87,16 +88,14 @@ my-app/
   - `@/lib/utils` → lib/utils.ts
   - `@/ui` → components/ui/
 
-**3. 设计系统（globals.css）**
-
+**4. 设计系统（globals.css）**
 - 主色调：`--primary: #FF6B35`（橙色）
 - 背景色：`--background: #F7F4ED`（米黄色）
 - 卡片：`--card: #FFFFFF`
 - 圆角：`--radius: 0.75rem`（12px）
 - 字体：Inter（通过 next/font/google 加载）
 
-**4. 组件模式**
-
+**5. 组件模式**
 - 所有交互式组件需 `"use client"` 指令
 - 使用 `cn()` 工具函数合并 Tailwind 类名
 - 底部导航固定在 `max-w-lg mx-auto` 容器内
@@ -106,7 +105,6 @@ my-app/
 ## 关键设计规范
 
 ### 移动端布局约束
-
 ```tsx
 // 所有页面必须包裹在这个容器内
 <div className="max-w-lg mx-auto">
@@ -115,7 +113,6 @@ my-app/
 ```
 
 ### 底部导航栏
-
 - 高度：`h-20`（80px）
 - 背景：`bg-[#F7F4ED]/95 backdrop-blur-sm`
 - 边框：`border-t border-[#E8E3D8]`
@@ -123,7 +120,6 @@ my-app/
 - 页面需预留 `pb-24` 避免被遮挡
 
 ### 色彩使用
-
 ```css
 /* 主色调（按钮、激活状态） */
 text-[#FF6B35]  bg-[#FF6B35]
@@ -143,13 +139,11 @@ border-[#E8E3D8]
 ```
 
 ### 圆角规范
-
 - 大卡片：`rounded-xl`（12px）
 - 输入框/按钮：`rounded-lg`（8px）
 - 日期选择器：`rounded-full`（完全圆形）
 
 ### 阴影层级
-
 ```css
 shadow-sm        /* 普通卡片 */
 shadow-md        /* hover 状态 */
@@ -160,27 +154,25 @@ hover:shadow-md  /* 交互式卡片 */
 
 ## 路由结构
 
-| 路径              | 页面     | 说明                 |
-| ----------------- | -------- | -------------------- |
-| `/`             | 首页     | 日历流 + 热门内容    |
-| `/article/[id]` | 文章详情 | 动态路由，支持付费墙 |
-| `/member`       | 会员专区 | 订阅页面             |
-| `/profile`      | 个人中心 | 用户信息 + 设置      |
-| `/checkin`      | 签到页   | 积分系统             |
-| `/handbook`     | 手册页   | 文档/资源列表        |
+| 路径                | 页面         | 说明                   |
+| ------------------- | ------------ | ---------------------- |
+| `/`                 | 首页         | 日历流 + 热门内容      |
+| `/article/[id]`     | 文章详情     | 动态路由，支持付费墙   |
+| `/member`           | 会员专区     | 订阅页面               |
+| `/profile`          | 个人中心     | 用户信息 + 设置        |
+| `/checkin`          | 签到页       | 积分系统               |
+| `/handbook`         | 手册页       | 文档/资源列表          |
 
 ---
 
 ## 开发注意事项
 
 ### 1. 禁止事项
-
 - ❌ 不要运行 `pnpm dev`（已在后台运行）
 - ❌ 不要使用 `npm`/`yarn`（必须用 pnpm）
 - ❌ 不要修改 globals.css 中的 CSS Variables（除非明确需要）
 
 ### 2. 组件开发规范
-
 ```tsx
 // ✅ 正确示例
 "use client"
@@ -201,13 +193,11 @@ export default function MyComponent() {
 ```
 
 ### 3. 图片资源处理
-
-- 当前使用占位符路径（如 `/abstract-gradient-shapes-modern-design.jpg`）
-- 实际使用时需替换为真实图片或 Next.js Image 组件
-- 建议使用 `next/image` 优化性能
+- 当前使用 Unsplash CDN 图片（如 `https://images.unsplash.com/...`）
+- 所有图片已替换为在线资源，无需本地文件
+- 建议使用 `next/image` 优化性能（自动图片压缩和懒加载）
 
 ### 4. 响应式处理
-
 ```tsx
 // 横向滚动（隐藏滚动条）
 <div className="overflow-x-auto no-scrollbar">
@@ -226,7 +216,6 @@ export default function MyComponent() {
 ```
 
 ### 5. Metadata 规范
-
 ```tsx
 // 每个页面应包含
 export const metadata: Metadata = {
@@ -251,7 +240,6 @@ export const metadata: Metadata = {
 ## 数据流（未来扩展）
 
 当前为静态 UI，未来需要：
-
 - [ ] API 路由（`app/api/` 目录）
 - [ ] 数据获取（Server Components）
 - [ ] 状态管理（React Context 或 Zustand）
@@ -263,7 +251,6 @@ export const metadata: Metadata = {
 ## Git 提交规范
 
 遵循 Conventional Commits：
-
 ```bash
 feat: 添加新功能
 fix: 修复 bug

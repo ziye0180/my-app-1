@@ -35,11 +35,11 @@ pnpm lint
 
 ### Shadcn UI 组件管理
 ```bash
-# 添加新组件
-pnpx shadcn@latest add [component-name]
+# 添加新组件（pnpm 官方推荐方式）
+pnpm dlx shadcn-ui@latest add [component-name]
 
 # 查看可用组件
-pnpx shadcn@latest add
+pnpm dlx shadcn-ui@latest add
 ```
 
 ---
@@ -72,7 +72,14 @@ my-app/
 "@/*": ["./*"]  // 所有文件从根目录引用
 ```
 
-**2. Shadcn UI 配置（components.json）**
+**2. 包管理器（pnpm）**
+- 使用 pnpm 管理依赖（全局存储，节省磁盘空间）
+- 严格的依赖隔离（避免幽灵依赖问题）
+- Lock 文件：`pnpm-lock.yaml`
+- 安装命令：`pnpm install`
+- 添加 Shadcn 组件：`pnpm dlx shadcn-ui@latest add [component]`
+
+**3. Shadcn UI 配置（components.json）**
 - 风格：New York
 - 颜色：Slate
 - 图标库：lucide-react
@@ -81,14 +88,14 @@ my-app/
   - `@/lib/utils` → lib/utils.ts
   - `@/ui` → components/ui/
 
-**3. 设计系统（globals.css）**
+**4. 设计系统（globals.css）**
 - 主色调：`--primary: #FF6B35`（橙色）
 - 背景色：`--background: #F7F4ED`（米黄色）
 - 卡片：`--card: #FFFFFF`
 - 圆角：`--radius: 0.75rem`（12px）
 - 字体：Inter（通过 next/font/google 加载）
 
-**4. 组件模式**
+**5. 组件模式**
 - 所有交互式组件需 `"use client"` 指令
 - 使用 `cn()` 工具函数合并 Tailwind 类名
 - 底部导航固定在 `max-w-lg mx-auto` 容器内
@@ -186,9 +193,9 @@ export default function MyComponent() {
 ```
 
 ### 3. 图片资源处理
-- 当前使用占位符路径（如 `/abstract-gradient-shapes-modern-design.jpg`）
-- 实际使用时需替换为真实图片或 Next.js Image 组件
-- 建议使用 `next/image` 优化性能
+- 当前使用 Unsplash CDN 图片（如 `https://images.unsplash.com/...`）
+- 所有图片已替换为在线资源，无需本地文件
+- 建议使用 `next/image` 优化性能（自动图片压缩和懒加载）
 
 ### 4. 响应式处理
 ```tsx
