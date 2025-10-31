@@ -152,6 +152,7 @@ export default function HomePage() {
         <div className="px-4 py-2">
           <ToggleGroup
             type="single"
+            spacing={0}
             value={weekDays[selectedIndex]?.key}
             onValueChange={(value) => {
               if (!value) return
@@ -160,8 +161,7 @@ export default function HomePage() {
                 setSelectedIndex(nextIndex)
               }
             }}
-            spacing={0}
-            className="grid grid-cols-7"
+            className="grid w-full grid-cols-7 gap-2 rounded-none"
           >
             {weekDays.map((day) => (
               <ToggleGroupItem
@@ -169,7 +169,7 @@ export default function HomePage() {
                 value={day.key}
                 className={cn(
                   "flex aspect-square min-h-[54px] w-full flex-col items-center justify-center border border-[#E8E3D8] bg-white text-[#7A7A7A] transition-all",
-                  "gap-[2px] px-0 py-0",
+                  "px-0 py-1 !gap-px !h-auto !rounded-xl",
                   "hover:bg-[#FFF8F5] hover:text-[#FF6B35]",
                   "data-[state=on]:border-transparent data-[state=on]:bg-[#FF6B35] data-[state=on]:text-white data-[state=on]:shadow-sm"
                 )}
