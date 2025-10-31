@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react"
 import { Bell, Search, Play, Lock, Download, Share2, Home, Award, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
 
@@ -149,36 +150,38 @@ export default function HomePage() {
 
         {/* Date Selector */}
         <div className="px-4 py-2">
-          <div className="grid grid-cols-7 gap-2">
-            {weekDays.map((day, index) => {
-              const isSelected = index === selectedIndex
-              return (
-                <button
-                  key={day.key}
-                  type="button"
-                  onClick={() => setSelectedIndex(index)}
-                  className={cn(
-                    "flex flex-col items-center justify-center h-16 rounded-full transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF6B35]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#F7F4ED]",
-                    isSelected
-                      ? "bg-[#FF6B35] text-white shadow-sm"
-                      : "bg-white text-[#7A7A7A] border border-[#E8E3D8] hover:bg-[#FFF8F5] hover:text-[#FF6B35]"
-                  )}
-                >
-                  <span className="text-xs font-medium">
-                    {day.isToday && !isSelected ? "今天" : day.label}
-                  </span>
-                  <span
-                    className={cn(
-                      "text-base font-semibold",
-                      isSelected ? "text-white" : "text-[#1A1A1A]"
-                    )}
-                  >
-                    {day.dayNumber}
-                  </span>
-                </button>
-              )
-            })}
-          </div>
+          <ToggleGroup
+            type="single"
+            value={weekDays[selectedIndex]?.key}
+            onValueChange={(value) => {
+              if (!value) return
+              const nextIndex = weekDays.findIndex((day) => day.key === value)
+              if (nextIndex !== -1) {
+                setSelectedIndex(nextIndex)
+              }
+            }}
+            className="grid grid-cols-7 gap-2"
+          >
+            {weekDays.map((day) => (
+              <ToggleGroupItem
+                key={day.key}
+                value={day.key}
+                className={cn(
+                  "flex aspect-square min-h-[54px] w-full flex-col items-center justify-center rounded-xl border border-[#E8E3D8] bg-white text-[#7A7A7A] transition-all",
+                  "gap-[2px] px-0 py-0",
+                  "hover:bg-[#FFF8F5] hover:text-[#FF6B35]",
+                  "data-[state=on]:border-transparent data-[state=on]:bg-[#FF6B35] data-[state=on]:text-white data-[state=on]:shadow-sm"
+                )}
+              >
+                <span className="text-[11px] font-medium leading-none">
+                  {day.isToday ? "今天" : day.label}
+                </span>
+                <span className="text-sm font-semibold leading-none">
+                  {day.dayNumber}
+                </span>
+              </ToggleGroupItem>
+            ))}
+          </ToggleGroup>
         </div>
 
         {/* Promotional Banner */}
